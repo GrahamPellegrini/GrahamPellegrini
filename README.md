@@ -1,5 +1,22 @@
 # Hi, I'm Graham Pellegrini 👋
 
+<!-- 📈 Personal Best Tracker -->
+<!-- This section is auto-updated monthly -->
+
+<div align="center">
+
+### 🏃‍♂️ Personal Bests
+
+<pre>
+<!-- START_PB -->
+<!-- Contents of pb_widget.md will be inserted here -->
+<!-- END_PB -->
+</pre>
+
+<sub><i>Sourced from <a href="https://worldathletics.org/athletes/malta/graham-pellegrini-14962811">World Athletics</a> and <a href="https://malta.opentrack.run/en-gb/a/f77598db-2a2a-4597-a0d1-0ee86eda6147/">OpenTrack</a></i></sub>
+
+</div>
+
 <h2 align="left">
   <img src="umcrest.png" alt="UoM Logo" width="36" style="vertical-align: middle; margin-right: 10px;">
   B.Sc. (Hons.) Computer Engineering
