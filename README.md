@@ -1,10 +1,8 @@
 # Hi, I'm Graham Pellegrini 👋
 
-<p align="center">
-  <span style="display: inline-flex; align-items: center; gap: 12px;">
-    <img src="umcrest.png" alt="University of Malta" width="40" height="40"/>
-    <span style="font-size: 3em; font-weight: bold;">B.Sc. (Hons.) Computer Engineering</span>
-  </span>
+<p align="center" style="margin-top: 1.5em;">
+  <img src="umcrest.png" alt="UoM Logo" width="36" style="vertical-align: middle; margin-right: 12px;">
+  <span style="font-size: 1.6em; font-weight: 600; vertical-align: middle;">B.Sc. (Hons.) Computer Engineering</span>
 </p>
 
 
