@@ -1,12 +1,12 @@
 # Hi, I'm Graham Pellegrini 👋
 
 <p align="center">
-  <a href="https://www.um.edu.mt/">
-    <img src="https://img.shields.io/badge/UOM-%23d9534f?style=for-the-badge&logo=university&logoColor=white" alt="University of Malta">
-  </a>
+  <span style="display: inline-flex; align-items: center; gap: 12px;">
+    <img src="umcrest.png" alt="University of Malta" width="40" height="40"/>
+    <span style="font-size: 1.6em; font-weight: bold;">B.Sc. (Hons.) Computer Engineering</span>
+  </span>
 </p>
 
-<h1 align="center">B.Sc. (Hons.) Computer Engineering </h1>
 
 ---
 
