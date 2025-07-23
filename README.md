@@ -6,7 +6,7 @@
   </a>
 </p>
 
-<h1 align="center">B.Sc. (Hons.) Computer Engineering – Class of 2025</h1>
+<h1 align="center">B.Sc. (Hons.) Computer Engineering </h1>
 
 ---
 
