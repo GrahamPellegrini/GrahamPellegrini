@@ -1,6 +1,6 @@
 # Hi, I'm Graham Pellegrini 👋
 
-<h2 align="center">
+<h2 align="left">
   <img src="umcrest.png" alt="UoM Logo" width="36" style="vertical-align: middle; margin-right: 10px;">
   B.Sc. (Hons.) Computer Engineering
 </h2>
