@@ -1,23 +1,33 @@
 # Hi, I'm Graham Pellegrini 👋
 
 **B.Sc. (Hons.) Computer Engineering – Class of 2025**  
-University of Malta
+[![University of Malta](https://img.shields.io/badge/University%20of%20Malta-%2300356B?style=for-the-badge&logo=academia&logoColor=white)](https://www.um.edu.mt/)
 
 ---
 
-I'm passionate about **Signal Processing**, **Machine Learning**, and **AI Integration**, especially in low-level systems and real-time environments. My academic and personal work revolves around building intelligent, efficient, and interpretable systems — from **microcontroller-based solutions** to **deep learning pipelines**.
+- **Signal Processing**
+- **Machine Learning & AI Integration**
+- **Real-Time & Low-Level Systems**
+- **Embedded Systems & Microcontroller Development**
+- **CUDA & Parallel Processing**
 
-I strive to combine **logical reasoning** and **critical thinking** with a hands-on approach to technology and design. My curiosity drives me to build solutions that are not only functional but also meaningful and elegant.
-
----
-
-## 📬 Contact
-- University Email: [graham.pellegrini.22@um.edu.mt](mailto:graham.pellegrini.22@um.edu.mt)  
-- Personal Email: [grahammalta@gmail.com](mailto:grahammalta@gmail.com)
+I'm a **critical thinker** who prioritises **logic** and **understanding** of the problem at hand.
 
 ---
 
-## 🚀 Featured Projects
+## Contact
+
+<div align="left">
+
+[![University Email](https://img.shields.io/badge/Email-graham.pellegrini.22@um.edu.mt-blue?style=for-the-badge&logo=gmail&logoColor=white)](mailto:graham.pellegrini.22@um.edu.mt)
+
+[![Personal Email](https://img.shields.io/badge/Email-grahammalta@gmail.com-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:grahammalta@gmail.com)
+
+</div>
+
+---
+
+## Featured Projects
 
 | Project | Description |
 |--------|-------------|
@@ -30,17 +40,15 @@ I strive to combine **logical reasoning** and **critical thinking** with a hands
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
-Minimalist set of core technologies I frequently work with:
+Minimalist set of core technologies I have worked with:
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![C++](https://img.shields.io/badge/C++-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)
 ![C](https://img.shields.io/badge/C-00599C?style=for-the-badge&logo=c&logoColor=white)
 ![CUDA](https://img.shields.io/badge/CUDA-76B900?style=for-the-badge&logo=nvidia&logoColor=white)
 ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 
