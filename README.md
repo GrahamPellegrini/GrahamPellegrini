@@ -3,7 +3,7 @@
 <p align="center">
   <span style="display: inline-flex; align-items: center; gap: 12px;">
     <img src="umcrest.png" alt="University of Malta" width="40" height="40"/>
-    <span style="font-size: 1.9em; font-weight: bold;">B.Sc. (Hons.) Computer Engineering</span>
+    <span style="font-size: 3em; font-weight: bold;">B.Sc. (Hons.) Computer Engineering</span>
   </span>
 </p>
 
