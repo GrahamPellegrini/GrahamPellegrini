@@ -1,7 +1,7 @@
 # Hi, I'm Graham Pellegrini 👋
 
-**B.Sc. (Hons.) Computer Engineering – Class of 2025**  
 [![University of Malta](https://img.shields.io/badge/University%20of%20Malta-%2300356B?style=for-the-badge&logo=academia&logoColor=white)](https://www.um.edu.mt/)
+## **B.Sc. (Hons.) Computer Engineering – Class of 2025**  
 
 ---
 
