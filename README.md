@@ -5,7 +5,7 @@
 
 <div align="center">
 
-### 🏃‍♂️ Personal Bests
+### Personal Bests Tracker
 
 <pre>
 <!-- START_PB -->
