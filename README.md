@@ -9,7 +9,12 @@
 
 <pre>
 <!-- START_PB -->
-<!-- Contents of pb_widget.md will be inserted here -->
+### Personal Best Tracker
+
+| Event | PB |
+|-------|-----|
+
+> _Sourced from [OpenTrack](https://malta.opentrack.run/)_
 <!-- END_PB -->
 </pre>
 
