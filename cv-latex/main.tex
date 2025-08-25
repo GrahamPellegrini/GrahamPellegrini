@@ -1,5 +1,5 @@
 % ==================================================================
-% Graham Pellegrini — CV in LaTeX (two‑column with right sidebar)
+% Graham Pellegrini — CV in LaTeX (single column)
 % Save as main.tex. Compile with xelatex (recommended) or pdflatex.
 % ==================================================================
 \documentclass[11pt,a4paper]{article}
@@ -9,7 +9,6 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage{microtype}
-\usepackage{ragged2e} % for \justifying in sidebar
 
 % ---------- Graphics & Color ----------
 \usepackage{graphicx}
@@ -19,10 +18,6 @@
 
 % ---------- Layout ----------
 \usepackage[a4paper,top=0cm,left=1.6cm,right=1.6cm,bottom=1.6cm,includefoot]{geometry}
-\usepackage{paracol}            % two-column layout with independent flows
-\columnratio{0.68}              % main : sidebar ratio (approx like your old CV)
-\setlength{\columnsep}{0.9cm}  % space between columns
-\setlength{\columnseprule}{0.6pt} % vertical divider rule between columns
 
 \usepackage{enumitem}
 \setlist[itemize]{leftmargin=1.2em,itemsep=0.2em,topsep=0.2em}
@@ -32,7 +27,8 @@
 \usepackage[hidelinks]{hyperref}
 
 % ---------- Styling helpers ----------
-\definecolor{accent}{HTML}{2E86AB}   % tweak to taste
+\definecolor{accent}{HTML}{2E86AB}   % Main blue for section headers
+\definecolor{subaccent}{HTML}{5CB3D6}  % Lighter blue for subsection headers
 \definecolor{text}{HTML}{222222}
 \definecolor{muted}{HTML}{666666}
 \definecolor{bannerbg}{HTML}{5CB3D6}  % Light blue for header
@@ -41,26 +37,14 @@
 \newcommand{\name}[1]{\textbf{\Large #1}}
 \newcommand{\tagline}[1]{\textit{#1}}
 
-% Section header style (clean, with underline)
-\newcommand{\sectionrule}{\vspace{0.25em}\color{accent}\rule{\linewidth}{0.9pt}\vspace{0.4em}}
-\titleformat{\section}{\large\bfseries\color{text}\MakeUppercase}{ }{0pt}{}
-\titlespacing*{\section}{0pt}{0.6em}{0.3em}
+% Section header style with underline
+\titleformat{\section}{\large\bfseries\color{accent}}{ }{0pt}{}[\vspace{0.1em}\color{accent!40}\rule{\linewidth}{0.8pt}\vspace{0.4em}]
 
-% Sidebar section header
-\newcommand{\sbheader}[1]{\vspace{0.6em}{\bfseries\color{accent}\MakeUppercase{#1}}\par\vspace{0.2em}\color{muted}\rule{\linewidth}{0.6pt}\vspace{0.3em}}
-
-% Entry helper for dated items (Education, Experience, etc.)
-\newcommand{\entry}[4]{% org, role, dates, location/notes
+% Entry helper for dated items - with subsection styling
+\newcommand{\entry}[3]{% org, dates, description
   \noindent\textbf{#1}\\[-1pt]
-  {#2}\\[-1pt]
-  \textcolor{muted}{#3}\\
-  #4\par\vspace{0.6em}}
-
-% One-line bullet list (for compact skills etc.)
-\newcommand{\skilltags}[1]{\noindent\begin{tabularx}{\linewidth}{@{}>{\justifying\arraybackslash}X@{}}#1\end{tabularx}}
-
-% Dot for contact line
-\newcommand{\dotsep}{\,\textcolor{muted}{\Large\raisebox{0.2ex}{\textbullet}}\,}
+  \textcolor{muted}{#2}\\
+  \color{text}#3\par\vspace{0.6em}}
 
 % Photo command - using actual profile picture
 \newcommand{\profilephoto}{%
@@ -75,117 +59,127 @@
 \color{text}
 \setlength{\emergencystretch}{2em} % helps justification
 
-% ===== Top banner with name and picture only =====
+% ===== Top banner with name, contact info and picture =====
 % Using tikz to create full-width header with integrated photo
 \begin{tikzpicture}[remember picture,overlay]
-  % Blue background banner
-  \fill[bannerbg] (current page.north west) rectangle ([yshift=-3.5cm]current page.north east);
+  % Blue background banner (increased height for contact info)
+  \fill[bannerbg] (current page.north west) rectangle ([yshift=-4.5cm]current page.north east);
   
   % Profile picture (clipped to circle) positioned on the left side of the banner
   \begin{scope}
-    \clip ([xshift=3cm,yshift=-1.75cm]current page.north west) circle (1.6cm);
-    \node at ([xshift=3cm,yshift=-1.75cm]current page.north west) 
+    \clip ([xshift=3cm,yshift=-2.25cm]current page.north west) circle (1.6cm);
+    \node at ([xshift=3cm,yshift=-2.25cm]current page.north west) 
       {\includegraphics[width=3.2cm,height=3.2cm,keepaspectratio]{profile_picture.jpeg}};
   \end{scope}
   
   % White border around the photo
-  \draw[bannertext,line width=2pt] ([xshift=3cm,yshift=-1.75cm]current page.north west) circle (1.6cm);
+  \draw[bannertext,line width=2pt] ([xshift=3cm,yshift=-2.25cm]current page.north west) circle (1.6cm);
   
   % Name text positioned to the right of the photo
-  \node[anchor=west,text=bannertext] at ([xshift=5.5cm,yshift=-1.75cm]current page.north west) 
+  \node[anchor=west,text=bannertext] at ([xshift=5.5cm,yshift=-1.5cm]current page.north west) 
     {\Huge\bfseries Graham Pellegrini};
+  
+  % Contact information below the name
+  \node[anchor=west,text=bannertext] at ([xshift=5.5cm,yshift=-2.8cm]current page.north west) 
+    {\large\href{mailto:grahammalta@gmail.com}{\faEnvelope} \hspace{0.8em}
+     \href{tel:+35699760266}{\faPhone} \hspace{0.8em}
+     \href{https://www.linkedin.com/in/graham-pellegrini-858690244/}{\faLinkedin} \hspace{0.8em}
+     \href{https://github.com/GrahamPellegrini}{\faGithub}};
+  
+  % Address below contact icons
+  \node[anchor=west,text=bannertext] at ([xshift=5.5cm,yshift=-3.5cm]current page.north west) 
+    {\faMapMarker* \hspace{0.3em} {\small 9, Hibiscus, Triq Andre' Maurois, St Julians, STJ 1573, Malta}};
 \end{tikzpicture}
 
-\vspace*{3.5cm}
+\vspace*{4.5cm}
 \color{text}
-\vspace{0.5cm}
 
-% ===== Contact information below the header =====
+% ===== Single column content =====
+\color{text}
+
+\section*{Profile}
+\textbf{DOB:} 23/10/2004\\
+\textbf{Nationality:} Maltese\\
+
 \noindent
-\begin{center}
-\large
-\href{mailto:grahammalta@gmail.com}{\faEnvelope} \hspace{1em}
-\href{tel:+35699760266}{\faPhone} \hspace{1em}
-\href{https://www.linkedin.com/in/graham-pellegrini-858690244/}{\faLinkedin} \hspace{1em}
-\href{https://github.com/GrahamPellegrini}{\faGithub} \hspace{1em}
-\faMapMarker*
-\\[0.3em]
-{\small 7, Hibiscus, St Julians, STJ 1573, Malta}
-\end{center}
-\vspace{0.8cm}
+Hardworking university student seeking internship opportunities to gain practical experience and broaden my skill set. I am a critical thinker who prioritises logic and a clear understanding of the problem at hand. Outside work and study, I am a national athlete representing Malta in the 200m \& 400m, who also enjoys scuba diving.
 
-% ===== Two columns begin (vertical rule set above) =====
-\begin{paracol}{2}
-% --------------- Left (main) column ---------------
-\section*{Profile}\sectionrule
-Hardworking University student currently seeking internship opportunities to
+\section*{Work Experience}
+\entry{Summer Intern, EY (Ernst \& Young)}{Summer 2023, 2024 \& 2025}{Three consecutive summer internships gaining experience with Microsoft cloud tools (Power Platform), learning the technology consulting role and how to work in a team working environment.}
+
+\entry{Coach, MSC Summer Camp}{Aug 2024}{Coached young athletes, developing leadership and communication skills whilst sharing enthusiasm for sports.}
+
+\section*{Education}
+\entry{M.Sc. Artificial Intelligence, University of Malta, Msida}{Present}{Awaiting confirmation}
+
+\entry{B.Sc. (Hons) Computer Engineering, University of Malta, Msida}{Oct 2022 — Jun 2025}{Second Upper Class Graduate\\ Final Year Project: Machine Learning Noise Cancellation
+System (A)}
+\pagebreak
+\vspace*{2em}
+
+\entry{MATSEC A-Level, Saint Aloysius College, Birkirkara}{Oct 2020 — May 2022}{\textbf{Advanced:}
 \begin{itemize}
-  \item further knowledge in the ICT sector,
-  \item establish a strong work ethic and professional experience,
-  \item contribute skills to facilitate company needs within a team,
-  \item find a suitable place of work for years to come.
+  \item Physics (B)
+  \item Pure Mathematics (B)
 \end{itemize}
-
-\section*{Education}\sectionrule
-\entry{Matsec O-Level, St Michael's Foundation, San Gwann}{Nine subjects at Level 3}{Oct 2007 — Jun 2020}{\begin{itemize}
-  \item Maltese, Religious Knowledge, English Language, English Literature, Mathematics, Physics, Accounting, Computer Studies, Economics, German (all Level 3)
+\textbf{Intermediate:}
+\begin{itemize}
+  \item Computing (B)
+  \item Accounting (B)
+  \item English Language (C)
+  \item Systems of Knowledge (A)
 \end{itemize}}
 
-\entry{Matsec A-Level, Saint Aloysius College, Birkirkara}{Advanced \\
-  \hspace*{0.75em}\textbullet\ Physics (B)\;\; \textbullet\ Pure Mathematics (B) \\
-  Intermediate \\
-  \hspace*{0.75em}\textbullet\ Computing (B)\;\; \textbullet\ Accounting (B)\;\; \textbullet\ English Language (C)\;\; \textbullet\ Systems of Knowledge (A)}{Oct 2020 — May 2022}{}
-
-\entry{B.Sc. (Hons) Computer Engineering, University of Malta, Msida}{Undergraduate studies}{Oct 2022 — Present}{Currently completing 1st year.}
-
-\section*{Extra-curricular}\sectionrule
-\entry{National Athlete, Athletics Malta, Marsa}{Middle-distance sprinter (200m \& 400m)}{Mar 2019 — Present}{}
-\entry{Advanced Open Water Diver, Watercolours Dive Centre, Sliema}{SSI Certifications}{Jul 2022 — Present}{\begin{itemize}
-  \item Open Water Diver (SSI)
-  \item Advanced Adventurer (SSI)
+\entry{MATSEC O-Level, St Michael's Foundation, San Gwann}{Oct 2007 — Jun 2020}{All Level 3: \begin{itemize}
+  \item Maltese
+  \item Religious Knowledge
+  \item English Language
+  \item English Literature
+  \item Mathematics
+  \item Physics 
+  \item Accounting
+  \item Computer Studies
+  \item Economics
+  \item German
 \end{itemize}}
 
-\section*{Certificates}\sectionrule
+\section*{Other Certificates}
 \begin{itemize}
   \item Certificate of Participation, 10th Malta Mathematics Olympiad (Apr 2019)
-  \item ISF World School Championships Athletics, Croatia (May 2019)
-  \item U18 Athlete of the Year (2020)\;\&\; (2021)
   \item ECDL (Jun 2020)
   \item Social Responsibility Programme (Salesians Senglea) completion (Jun 2022)
   \item Advanced and Open Water Diver (Aug 2022)
-  \item U20 300m National Record Holder (Feb 2023)
+  \item Participation at the Basic Track on Quantum Computing, Qalypso Summer School (Sep 2022)
+\end{itemize}
+\pagebreak
+\vspace*{2em}
+
+\section*{\href{https://www.worldathletics.org/athletes/malta/graham-pellegrini-147123}{Athletics Profile}}
+
+\textbf{Discipline:} Middle-distance sprints (200m \& 400m)\\
+\textbf{Club:} Athletics Malta\\
+\textbf{Coach:} Steve Camilleri\\
+
+\textbf{National Records:}
+\begin{itemize}
+  \item Open 400m National Record Holder (June 2023 (broken)) - 46.83s
+  \item U23 400m National Record Holder (June 2023 (broken)) - 46.83s
+  \item U20 400m National Record Holder (June 2023 (broken)) - 46.83s
+  \item U23 200m National Record Holder (April 2023) - 21.18s
+  \item U20 200m National Record Holder (April 2023) - 21.18s
+  \item U20 300m National Record Holder (February 2023) - 34.42s
 \end{itemize}
 
-\section*{Courses}\sectionrule
-\entry{Basic Track on Quantum Computing, Qalypso Summer School}{}{Sep 2022}{}
-
-% --------------- Switch to right (sidebar) column ---------------
-\switchcolumn
-\footnotesize\justifying  % Using footnotesize instead of small for smaller text
-
-\sbheader{Details}
-\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{3.2cm}>{\justifying\arraybackslash}X@{}}
-Nationality & Maltese \\
-Date / place of birth & 23/10/2004, Piet\'a \\
-\end{tabularx}
-
-\sbheader{Links}
-\noindent LinkedIn: \href{https://www.linkedin.com/in/graham-pellegrini-858690244/}{graham-pellegrini-858690244} \par
-\noindent Facebook: \href{https://www.facebook.com/GrahamPelle2004}{GrahamPelle2004} \par
-\noindent Instagram: \href{https://www.instagram.com/grahampelle_/}{@grahampelle\_}
-
-\sbheader{Skills}
-\skilltags{Inquisitive learner \;\textbullet\; Strong with computers \& tech \\
-Developed communication \;\textbullet\; Critical thinker \\
-Fast learner \;\textbullet\; Effective time management \\
-Team collaboration}
-
-\sbheader{Hobbies}
-\skilltags{Diving \;\textbullet\; Athletics \;\textbullet\; Computer tinkering}
-
-\sbheader{Languages}
-\skilltags{English (fluent) \;\textbullet\; Maltese (fluent) \;\textbullet\; German (conversational)}
-
-\end{paracol}
+\textbf{Achievements \& Awards:}
+\begin{itemize}
+  \item ISF World School Championships Athletics, Croatia (May 2019)
+  \item U18 Athlete of the Year (2020) \& (2021)
+  \item Two Gold and One Silver Medalist GSSE (2022)
+  \item University of Malta GSSE Commemoration
+  \item Atlas Athlete of the Month (June 2023)
+  \item Atlas Athlete of the Month (February 2024)
+  \item Certificate of Achievement Mediterranean Games (May 2024)
+  \item 77th Balkan Athletics Championship participation (May 2024)
+\end{itemize}
 
 \end{document}
