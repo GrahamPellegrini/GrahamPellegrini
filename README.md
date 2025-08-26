@@ -73,6 +73,6 @@ Minimalist set of core technologies I have worked with:
 
 ---
 
-[![Click Me For CV](https://img.shields.io/badge/Click_Me_For_CV-Download-red?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](cv-latex/main.pdf)
+[![Click Me For CV](https://img.shields.io/badge/Click_Me_For_CV-green?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](cv-latex/main.pdf)
 
 Thanks for visiting! :)
