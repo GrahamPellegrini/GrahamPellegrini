@@ -58,7 +58,7 @@ Minimalist set of core technologies I have worked with:
 ---
 
 <!-- START_PB -->
-### Personal Best Tracker
+### Automatic Personal Best Tracker
 
 | Event | PB |
 |-------|-----|

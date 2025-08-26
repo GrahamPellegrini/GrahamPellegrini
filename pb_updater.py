@@ -200,7 +200,7 @@ def build_widget(scraped_pbs):
         str: Formatted markdown table for README
     """
     lines = []
-    lines.append("### Personal Best Tracker\n")
+    lines.append("### Automatic Personal Best Tracker\n")
     lines.append("| Event | PB |")
     lines.append("|-------|-----|")
     
