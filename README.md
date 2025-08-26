@@ -1,26 +1,5 @@
 # Hi, I'm Graham Pellegrini 👋
 
-<!-- 📈 Personal Best Tracker -->
-<!-- This section is auto-updated monthly -->
-
-<div align="center">
-
-<!-- START_PB -->
-### Personal Best Tracker
-
-| Event | PB |
-|-------|-----|
-| 60m | 7.04s |
-| 100m | 10.72s |
-| 200m | 21.18s |
-| 300m | 34.42s |
-| 400m | 46.83s |
-
-> _Sourced from [OpenTrack](https://malta.opentrack.run/)_
-<!-- END_PB -->
-
-</div>
-
 <h2 align="left">
   <img src="umcrest.png" alt="UoM Logo" width="36" style="vertical-align: middle; margin-right: 10px;">
   B.Sc. (Hons.) Computer Engineering
@@ -75,6 +54,22 @@ Minimalist set of core technologies I have worked with:
 ![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=java&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+
+---
+
+<!-- START_PB -->
+### Personal Best Tracker
+
+| Event | PB |
+|-------|-----|
+| 60m | 7.04s |
+| 100m | 10.72s |
+| 200m | 21.18s |
+| 300m | 34.42s |
+| 400m | 46.83s |
+
+> _Sourced from [OpenTrack](https://malta.opentrack.run/)_
+<!-- END_PB -->
 
 ---
 
