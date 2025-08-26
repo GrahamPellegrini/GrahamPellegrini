@@ -52,6 +52,6 @@ jobs:
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "🏃‍♂️ Auto-update Personal Best Tracker - $(date +'%B %Y')"
+          git commit -m "Auto-update Personal Best Tracker - $(date +'%B %Y')"
           git push
         fi

@@ -1,5 +1,5 @@
 # Fdb version 3
-["pdflatex"] 1756155739 "/home/grahampelle/GrahamPellegrini/cv-latex/main.tex" "main.pdf" "main" 1756155740
+["pdflatex"] 1756196644 "/home/grahampelle/GrahamPellegrini/cv-latex/main.tex" "main.pdf" "main" 1756196644
   "/etc/texmf/web2c/texmf.cnf" 1699451927 475 c0e671620eb5563b2130f56340a5fde8 ""
   "/home/grahampelle/GrahamPellegrini/cv-latex/main.tex" 1756155739 7338 340a667eac425e8dca20aa917de7f152 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/fontawesome5/fa5brands0.enc" 1622837620 2920 d63721872b8c77041b88e51b8f7c291d ""
@@ -161,8 +161,8 @@
   "/usr/share/texmf/web2c/texmf.cnf" 1644012257 39432 7155514e09a3d69036fac785183a21c2 ""
   "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1736943609 4271278 08815d8b34a5869b952b1c250285f85d ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1736943626 1435889 1b35d29763c5f2c43f0413620076c8dd ""
-  "main.aux" 1756155740 729 850b79c3cc65483be5f2e43e36df937b "pdflatex"
-  "main.out" 1756155740 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "main.aux" 1756196644 729 850b79c3cc65483be5f2e43e36df937b "pdflatex"
+  "main.out" 1756196644 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
   "main.tex" 1756155739 7338 340a667eac425e8dca20aa917de7f152 ""
   "profile_picture.jpeg" 1756133533 277522 edba567b079c43751b1fdf1a355c782b ""
   (generated)

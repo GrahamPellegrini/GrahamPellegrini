@@ -5,20 +5,19 @@
 
 <div align="center">
 
-### Personal Bests Tracker
-
-<pre>
 <!-- START_PB -->
 ### Personal Best Tracker
 
 | Event | PB |
 |-------|-----|
+| 60m | 7.04s |
+| 100m | 10.72s |
+| 200m | 21.18s |
+| 300m | 34.42s |
+| 400m | 46.83s |
 
 > _Sourced from [OpenTrack](https://malta.opentrack.run/)_
 <!-- END_PB -->
-</pre>
-
-<sub><i>Sourced from <a href="https://worldathletics.org/athletes/malta/graham-pellegrini-14962811">World Athletics</a> and <a href="https://malta.opentrack.run/en-gb/a/f77598db-2a2a-4597-a0d1-0ee86eda6147/">OpenTrack</a></i></sub>
 
 </div>
 
@@ -78,5 +77,7 @@ Minimalist set of core technologies I have worked with:
 ![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
 
 ---
+
+[![Click Me For CV](https://img.shields.io/badge/Click_Me_For_CV-Download-red?style=for-the-badge&logo=adobe-acrobat-reader&logoColor=white)](cv-latex/main.pdf)
 
 Thanks for visiting! :)
