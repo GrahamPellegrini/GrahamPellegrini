@@ -62,13 +62,13 @@ Minimalist set of core technologies I have worked with:
 
 | Event | PB |
 |-------|-----|
-| 60m | 7.04s |
-| 100m | 10.72s |
-| 200m | 21.18s |
-| 300m | 34.42s |
-| 400m | 46.83s |
+| 60m | 99.99s |
+| 100m | 99.99s |
+| 200m | 99.99s |
+| 300m | 99.99s |
+| 400m | 99.99s |
 
-> _Sourced from [OpenTrack](https://malta.opentrack.run/)_
+> _This data is intentionally wrong for testing!_
 <!-- END_PB -->
 
 ---
