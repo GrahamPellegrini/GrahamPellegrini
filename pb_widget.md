@@ -1,4 +1,4 @@
-### Personal Best Tracker
+### Automatic Personal Best Tracker
 
 | Event | PB |
 |-------|-----|
