@@ -32,6 +32,8 @@ except ImportError:
 # Configuration
 OPENTRACK_URL = "https://malta.opentrack.run/en-gb/a/f77598db-2a2a-4597-a0d1-0ee86eda6147/"
 WORLD_ATHLETICS_URL = "https://worldathletics.org/athletes/malta/graham-pellegrini-14962811"
+ATHLETICS_MALTA_RECORDS_URL = "https://athleticsmalta.com/records/"
+ATHLETICS_MALTA_RECORDS_RESULTS_URL = "https://athleticsmalta.com/records/?sf_data=results"
 
 # Standard event distances (in meters)
 TARGET_EVENTS = ["60", "100", "200", "300", "400", "800", "1500"]
@@ -64,6 +66,7 @@ class AthleteicsDataScraper:
     def __init__(self):
         self.session = requests.Session()
         self._world_athletics_records = {}  # Store NR info from World Athletics
+        self._athletics_malta_records = {}  # Store official records by event
         # Multiple user agents to avoid detection
         self.user_agents = [
             'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -401,6 +404,155 @@ class AthleteicsDataScraper:
         except Exception as e:
             print(f"  Error scraping World Athletics: {e}")
             return {}
+
+    def _event_from_athletics_malta(self, event_name: str) -> Optional[str]:
+        """Normalize Athletics Malta event names to tracker event keys."""
+        text = (event_name or "").strip().lower()
+
+        if not text:
+            return None
+
+        if 'relay' in text or 'hurdle' in text or 'walk' in text:
+            return None
+
+        match = re.match(r'^(\d+)\s*x\s*\d+m$', text)
+        if match:
+            return None
+
+        match = re.match(r'^(\d+)\s*m(?:etres?)?$', text)
+        if not match:
+            return None
+
+        dist = match.group(1)
+        if dist not in TARGET_EVENTS:
+            return None
+
+        event_key = f"{dist}m"
+        if 'short track' in text or 'indoor' in text:
+            event_key += " SH"
+
+        return event_key
+
+    def _time_to_seconds(self, time_text: str) -> Optional[float]:
+        """Convert track time text to comparable seconds."""
+        if not time_text:
+            return None
+
+        clean = str(time_text).split('(')[0].strip().replace('s', '')
+        if not clean:
+            return None
+
+        try:
+            if ':' in clean:
+                mins, secs = clean.split(':', 1)
+                return float(mins) * 60 + float(secs)
+
+            parts = clean.split('.')
+            if len(parts) == 2:
+                return float(clean)
+
+            if len(parts) == 3 and parts[0].isdigit() and parts[1].isdigit() and parts[2].isdigit():
+                return float(parts[0]) * 60 + float(f"{parts[1]}.{parts[2]}")
+
+            return float(clean)
+        except ValueError:
+            return None
+
+    def scrape_athletics_malta_records(self) -> Dict[str, str]:
+        """Scrape Athletics Malta records and keep best (fastest) time per event."""
+        print("Scraping Athletics Malta records...")
+        urls_to_try = [
+            ATHLETICS_MALTA_RECORDS_RESULTS_URL,
+            ATHLETICS_MALTA_RECORDS_URL,
+        ]
+
+        records: Dict[str, str] = {}
+
+        for url in urls_to_try:
+            # First attempt: plain one-off request (sometimes less likely to be challenged)
+            try:
+                plain_response = requests.get(
+                    url,
+                    timeout=20,
+                    headers={
+                        'User-Agent': random.choice(self.user_agents),
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Accept-Language': 'en-US,en;q=0.9',
+                        'Referer': 'https://athleticsmalta.com/',
+                    },
+                )
+                if plain_response.status_code == 200 and plain_response.text:
+                    try:
+                        soup = BeautifulSoup(plain_response.content, 'html.parser')
+                        records = self._parse_athletics_malta_records_soup(soup)
+                        if records:
+                            self._athletics_malta_records = records
+                            print(f"  Found {len(records)} events from Athletics Malta records")
+                            return records
+                    except Exception:
+                        pass
+            except requests.RequestException:
+                pass
+
+            response = self._fetch_with_retry(url)
+            if response:
+                try:
+                    soup = BeautifulSoup(response.content, 'html.parser')
+                    records = self._parse_athletics_malta_records_soup(soup)
+                    if records:
+                        self._athletics_malta_records = records
+                        print(f"  Found {len(records)} events from Athletics Malta records")
+                        return records
+                except Exception:
+                    pass
+
+            if PLAYWRIGHT_AVAILABLE:
+                content = self._fetch_with_playwright(url)
+                if content:
+                    try:
+                        soup = BeautifulSoup(content, 'html.parser')
+                        records = self._parse_athletics_malta_records_soup(soup)
+                        if records:
+                            self._athletics_malta_records = records
+                            print(f"  Found {len(records)} events from Athletics Malta records")
+                            return records
+                    except Exception:
+                        pass
+
+        print("  Could not fetch or parse Athletics Malta records page")
+        self._athletics_malta_records = {}
+        return {}
+
+    def _parse_athletics_malta_records_soup(self, soup: BeautifulSoup) -> Dict[str, str]:
+        """Extract records by event from Athletics Malta records table rows."""
+        records: Dict[str, str] = {}
+        rows = soup.find_all('tr')
+
+        for row in rows:
+            cells = row.find_all('td')
+            if len(cells) < 4:
+                continue
+
+            time_text = cells[1].get_text(strip=True)
+            event_text = cells[3].get_text(strip=True)
+
+            event_key = self._event_from_athletics_malta(event_text)
+            if not event_key:
+                continue
+
+            event_seconds = self._time_to_seconds(time_text)
+            if event_seconds is None:
+                continue
+
+            normalized_time = f"{time_text}s" if not str(time_text).endswith('s') else str(time_text)
+            if event_key not in records:
+                records[event_key] = normalized_time
+            else:
+                existing_seconds = self._time_to_seconds(records[event_key])
+                if existing_seconds is not None and event_seconds < existing_seconds:
+                    records[event_key] = normalized_time
+
+        return records
     
     def _parse_world_athletics_event(self, discipline: str) -> Optional[str]:
         """
@@ -496,18 +648,30 @@ class AthleteicsDataScraper:
         # Extract base event name (e.g., "200m" from "200m SH")
         base_event = event_key.split()[0] if ' ' in event_key else event_key
         
-        if base_event not in NATIONAL_RECORDS:
-            return False
-        
-        try:
-            record_time = float(NATIONAL_RECORDS[base_event]["time"].replace('s', ''))
-            current_time = float(time_val.replace('s', ''))
-            return abs(current_time - record_time) < 0.01  # Allow small rounding differences
-        except (ValueError, KeyError):
+        current_time = self._time_to_seconds(time_val)
+        if current_time is None:
             return False
 
+        # Check curated records first
+        if base_event in NATIONAL_RECORDS:
+            try:
+                curated_time = self._time_to_seconds(NATIONAL_RECORDS[base_event]["time"])
+                if curated_time is not None and current_time <= curated_time + 0.01:
+                    return True
+            except (ValueError, KeyError):
+                pass
 
-def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None) -> str:
+        # Check Athletics Malta records as additional source
+        athletics_record = self._athletics_malta_records.get(event_key) or self._athletics_malta_records.get(base_event)
+        if athletics_record:
+            athletics_time = self._time_to_seconds(athletics_record)
+            if athletics_time is not None and current_time <= athletics_time + 0.01:
+                return True
+
+        return False
+
+
+def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None, scraper: Optional[AthleteicsDataScraper] = None) -> str:
     """
     Build the README widget content with separate rows for indoor variants and NR indicators.
     
@@ -526,7 +690,8 @@ def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None) -> s
     lines.append("| Event | PB | Status |")
     lines.append("|-------|------|--------|")
     
-    scraper = AthleteicsDataScraper()
+    if scraper is None:
+        scraper = AthleteicsDataScraper()
     displayed_events = set()
     
     # First pass: Add events in preferred order
@@ -560,7 +725,7 @@ def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None) -> s
             displayed_events.add(event_key)
     
     lines.append("\n> _Last updated: " + datetime.now().strftime("%d %B %Y") + "_")
-    lines.append("\n> _Sourced from [OpenTrack](https://malta.opentrack.run/) & [World Athletics](https://worldathletics.org/)_")
+    lines.append("\n> _Sourced from [OpenTrack](https://malta.opentrack.run/), [World Athletics](https://worldathletics.org/) & [Athletics Malta Records](https://athleticsmalta.com/records/)_")
     
     return "\n".join(lines)
 
@@ -611,6 +776,7 @@ def main():
     # Scrape from both sources
     opentrack_pbs = scraper.scrape_opentrack()
     world_athletics_pbs = scraper.scrape_world_athletics()
+    scraper.scrape_athletics_malta_records()
     
     # Keep track of which records came from World Athletics
     world_athletics_records = getattr(scraper, '_world_athletics_records', {})
@@ -629,7 +795,7 @@ def main():
     print(f"\nMerged {len(merged_pbs)} event variants from all sources")
     
     # Build the README widget
-    widget_content = build_widget(merged_pbs, world_athletics_records)
+    widget_content = build_widget(merged_pbs, world_athletics_records, scraper)
     
     # Save widget to file (for debugging/backup)
     Path("pb_widget.md").write_text(widget_content)
