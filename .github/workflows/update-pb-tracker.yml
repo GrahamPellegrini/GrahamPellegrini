@@ -1,9 +1,9 @@
 name: Update Personal Best Tracker
 
 on:
-  # Run automatically on the 1st of every month at 9:00 AM UTC
+  # Run automatically - every 30 days starting from Feb 18
   schedule:
-    - cron: '0 9 1 * *'
+    - cron: '0 9 18 * *'  # 9:00 AM UTC on the 18th of every month (approx every 30 days)
   
   # Allow manual triggering from GitHub Actions tab
   workflow_dispatch:
@@ -25,24 +25,7 @@ jobs:
     
     - name: Install dependencies
       run: |
-        pip install selenium beautifulsoup4
-        
-    - name: Install Chrome and ChromeDriver
-      run: |
-        # Install Chrome
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-        sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
-        sudo apt-get update
-        sudo apt-get install -y google-chrome-stable
-        
-        # Install ChromeDriver with updated method
-        CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f3)
-        CHROMEDRIVER_VERSION=$(curl -s "https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json" | \
-          python3 -c "import sys, json; v=sys.stdin.read(); print(json.loads(v)['channels']['Stable']['version'])")
-        wget -O /tmp/chromedriver.zip "https://edgedl.me.gvt1.com/edgedl/chrome/chrome-for-testing/${CHROMEDRIVER_VERSION}/linux64/chromedriver-linux64.zip"
-        unzip /tmp/chromedriver.zip -d /tmp/
-        sudo mv /tmp/chromedriver-linux64/chromedriver /usr/local/bin/
-        sudo chmod +x /usr/local/bin/chromedriver
+        pip install -r requirements.txt
     
     - name: Run Personal Best Tracker
       run: python pb_updater.py
@@ -58,3 +41,4 @@ jobs:
           git commit -m "Auto-update Personal Best Tracker - $(date +'%B %Y')"
           git push
         fi
+

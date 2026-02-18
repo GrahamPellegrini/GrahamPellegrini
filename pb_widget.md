@@ -1,11 +1,15 @@
-### Automatic Personal Best Tracker
+### 🏃 Automatic Personal Best Tracker
 
-| Event | PB |
-|-------|-----|
-| 60m | 7.04s |
-| 100m | 10.72s |
-| 200m | 21.18s |
-| 300m | 34.42s |
-| 400m | 46.83s |
+| Event | PB | Status |
+|-------|------|--------|
+| 60m | 7.04s | - |
+| 100m | 10.72s | - |
+| 200m | 21.18s | 🔴 NR |
+| 200m SH | 21.83s | 🔴 NR |
+| 300m | 33.15s | - |
+| 400m | 46.83s | - |
+| 400m SH | 47.55s | 🔴 NR |
 
-> _Sourced from [OpenTrack](https://malta.opentrack.run/)_
+> _Last updated: 18 February 2026_
+
+> _Sourced from [OpenTrack](https://malta.opentrack.run/) & [World Athletics](https://worldathletics.org/)_
