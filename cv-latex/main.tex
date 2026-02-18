@@ -23,15 +23,16 @@
 \setlist[itemize]{leftmargin=1.2em,itemsep=0.2em,topsep=0.2em}
 \usepackage{tabularx}
 \usepackage{array}
+\usepackage{colortbl} % Added for \arrayrulecolor support
 \usepackage{titlesec}
 \usepackage[hidelinks]{hyperref}
 
 % ---------- Styling helpers ----------
-\definecolor{accent}{HTML}{2E86AB}   % Main blue for section headers
-\definecolor{subaccent}{HTML}{5CB3D6}  % Lighter blue for subsection headers
+\definecolor{accent}{HTML}{C12444}   % Main blue for section headers
+\definecolor{subaccent}{HTML}{C43743}  % Lighter blue for subsection headers
 \definecolor{text}{HTML}{222222}
 \definecolor{muted}{HTML}{666666}
-\definecolor{bannerbg}{HTML}{5CB3D6}  % Light blue for header
+\definecolor{bannerbg}{HTML}{BA0C2F} % Official University of Malta Red banner
 \definecolor{bannertext}{HTML}{FFFFFF}
 
 \newcommand{\name}[1]{\textbf{\Large #1}}
@@ -46,13 +47,7 @@
   \textcolor{muted}{#2}\\
   \color{text}#3\par\vspace{0.6em}}
 
-% Photo command - using actual profile picture
-\newcommand{\profilephoto}{%
-  \begin{tikzpicture}
-    \clip (0,0) circle (1.5cm);
-    \node at (0,0) {\includegraphics[width=3cm,height=3cm,keepaspectratio]{profile_picture.jpeg}};
-  \end{tikzpicture}%
-}
+% ...existing code...
 
 \begin{document}
 \pagestyle{empty}
@@ -69,12 +64,8 @@
   \begin{scope}
     \clip ([xshift=3cm,yshift=-2.25cm]current page.north west) circle (1.6cm);
     \node at ([xshift=3cm,yshift=-2.25cm]current page.north west) 
-      {\includegraphics[width=3.2cm,height=3.2cm,keepaspectratio]{profile_picture.jpeg}};
+      {\includegraphics[width=3.2cm]{profile_picture.png}};
   \end{scope}
-  
-  % White border around the photo
-  \draw[bannertext,line width=2pt] ([xshift=3cm,yshift=-2.25cm]current page.north west) circle (1.6cm);
-  
   % Name text positioned to the right of the photo
   \node[anchor=west,text=bannertext] at ([xshift=5.5cm,yshift=-1.5cm]current page.north west) 
     {\Huge\bfseries Graham Pellegrini};
@@ -97,25 +88,31 @@
 % ===== Single column content =====
 \color{text}
 
+
 \section*{Profile}
-\textbf{DOB:} 23/10/2004\\
+\textbf{Date of Birth:} 23/10/2004\\
 \textbf{Nationality:} Maltese\\
 
 \noindent
-Graduate in Computer Engineering and current M.Sc. Artificial Intelligence student specialising in machine learning, computer vision, and signal processing. Highly motivated to contribute to innovative research projects where I can apply my technical expertise while continuing to develop new skills. A critical thinker who values logical problem-solving and clarity in execution. Beyond academics, I am a national athlete representing Malta in the 200m and 400m, which has strengthened my discipline, resilience, and commitment. I also enjoy scuba diving as a recreational pursuit.
+I am a researcher with a strong academic background in Computer Engineering and currently pursuing an M.Sc. in Artificial Intelligence at the University of Malta. As Lead RSO I on the M.AI.ESTRO project, I work at the intersection of machine learning, computer vision, and robotics, maintaining an up-to-date understanding of relevant literature and emerging techniques. I am a critical thinker who values logical problem solving and clarity in execution. I am keen to broaden my academic and professional involvement through research collaboration and scholarly outputs. Outside academia, I represent Malta as a national athlete in the 200m and 400m, which has strengthened my discipline, resilience, and commitment to excellence.
 
 \section*{Work Experience}
+
+\entry{RSO I, M.AI.ESTRO Project, University of Malta (Faculty of ICT)}{Nov 2025 -- Jun 2028}{Principal Research Officer on the M.AI.ESTRO project, funded by the Ministry for Education, Sport, Youth, Research and Innovation. The project develops Virtual Reality and AI-driven solutions to address labour market challenges in the industrial sector. My role is to lead the full project lifecycle including; research delivery, partnership coordination, implementation, dissemination, and quality assurance to ensure milestones, deliverables, and pilot outcomes are achieved. I also produce and disseminate academic outputs arising from the project, including publications and conference contributions.}
+
 \entry{Summer Intern, EY (Ernst \& Young)}{Summer 2023, 2024 \& 2025}{Three consecutive summer internships gaining experience with Microsoft cloud tools (Power Platform), learning the technology consulting role and how to work in a team working environment.}
 
 \entry{Coach, MSC Summer Camp}{Aug 2024}{Coached young athletes, developing leadership and communication skills whilst sharing enthusiasm for sports.}
+
+\entry{Coach, Pembroke Athleta}{Summer 2022}{Supported club by coaching academy athletes giving back experience and knowledge gained over years of training.}
+\pagebreak
+\vspace*{2em}
 
 \section*{Education}
 \entry{M.Sc. Artificial Intelligence, University of Malta, Msida}{Present}{October 2025 - August 2026 (Expected)}
 
 \entry{B.Sc. (Hons) Computer Engineering, University of Malta, Msida}{Oct 2022 — Jun 2025}{Second Upper Class Graduate\\ Final Year Project: Machine Learning Noise Cancellation
 System (A)}
-\pagebreak
-\vspace*{2em}
 
 \entry{MATSEC A-Level, Saint Aloysius College, Birkirkara}{Oct 2020 — May 2022}{\textbf{Advanced:}
 \begin{itemize}
@@ -151,38 +148,97 @@ System (A)}
   \item Advanced and Open Water Diver (Aug 2022)
   \item Participation at the Basic Track on Quantum Computing, Qalypso Summer School (Sep 2022)
 \end{itemize}
+
 \pagebreak
 \vspace*{2em}
 
-\section*{\href{https://www.worldathletics.org/athletes/malta/graham-pellegrini-147123}{Athletics Profile}}
+% ===== Athletics Profile Banner =====
+% Define a dark blue/purple color for the athletics banner
+\definecolor{athleticsbannerbg}{HTML}{534c91} % Deep blue-purple
+\definecolor{athleticsbannertext}{HTML}{FFFFFF}
 
-\textbf{Discipline:} Middle-distance sprints (200m \& 400m)\\
-\textbf{Club:} Pembroke Athleta\\
-\textbf{Coach:} Steve Camilleri\\
+\begin{tikzpicture}[remember picture,overlay]
+  % Banner background
+  \fill[athleticsbannerbg] (current page.north west) rectangle ([yshift=-4.5cm]current page.north east);
+
+  % SCOPE: Centered relative to the page, but content inside is left-justified
+  \begin{scope}[shift={([xshift=-9.5cm, yshift=-2.25cm]current page.north)}] 
+    
+    % 1. The Image (Anchored at the start of our centered block)
+    \node [
+      anchor=west,
+      inner sep=0pt,
+      rounded corners=0.5cm, 
+      clip
+    ] at (0,0) {
+      \includegraphics[width=4.6cm]{athletics_profile.png}
+    };
+
+    % 2. "Athletics Profile" header (Positioned 5cm from the start of the image)
+    \node[anchor=west, text=athleticsbannertext] at (5.0cm, 0.7cm)
+      {\Huge\bfseries Athletics Profile};
+
+    % 3. Links to profiles
+    \node[anchor=west, text=athleticsbannertext] at (5.0cm, -0.6cm)
+      {\large\faRunning\ \href{https://worldathletics.org}{World Athletics}\ \hspace{1.5em}
+       \faLink\ \href{https://malta.opentrack.run}{Open Track}};
+       
+  \end{scope}
+\end{tikzpicture}
+
+\vspace*{4.5cm}
+\color{text}
+% ...existing code...
+% Distinct discipline/club/coach info
+\vspace{1em}
+\noindent
+\textbf{Discipline:}~\textbf{Sprints (200m \& 400m)}\\
+\textbf{Club:}~\textbf{Pembroke Athleta}\\
+\textbf{Coach:}~\textbf{Steve Camilleri}
+
+
+% --- National Records Table ---
+\vspace{2em}
+\definecolor{recordsbg}{HTML}{F5F6FA} % very light blue/grey
 
 \noindent
-\textbf{National Records:}
-\begin{itemize}
-  \item U18/U20 300m NR Holder (February 2023) - 34.42s
-  \item U20/U23 200m NR Holder (April 2023) - 21.18s
-  \item Open/U23/U20 400m NR  (June 2023 (broken 2025)) - 46.83s
-  \item Open/U23 300m NR Holder (February 2024) - 33.15s
-  \item Open/U23 400m Indoor NR Holder (February 2024) - 47.55s
+\textbf{National Records}\\
+\\
+\fcolorbox{athleticsbannerbg}{recordsbg}{\parbox{0.97\linewidth}{
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabularx}{\linewidth}{>{\bfseries}l l >{\centering\arraybackslash}X}
+      Event & Date & Record Timing \\
+      \arrayrulecolor{athleticsbannerbg}\hline\arrayrulecolor{black}
+      U18/U20 300m & Feb 2023 & 34.42s \\
+      U20/U23 200m & Apr 2023 & 21.18s \\
+      Open/U23/U20 400m \tiny{(Broken 2025)} & Jun 2023 & 46.83s \\
+      Open/U23 300m & Feb 2024 & 33.15s \\
+      Open/U23 400m Indoor & Feb 2024 & 47.55s \\
+      U23/Open 200m Indoor & Feb 2026 & 21.83s \\
+    \end{tabularx}
+}}
 
-\end{itemize}
+% --- Achievements & Awards Table ---
+\vspace{1.5em}
+\definecolor{awardsborder}{HTML}{534c91} % matches athletics banner
 
-
-\noindent \\
-\textbf{Achievements \& Awards:}
-\begin{itemize}
-  \item ISF World School Championships Athletics, Croatia (May 2019)
-  \item U18 Athlete of the Year (2020) \& (2021)
-  \item Two Gold and One Silver Medalist GSSE (2022)
-  \item University of Malta GSSE Commemoration
-  \item Atlas Athlete of the Month (June 2023)
-  \item Atlas Athlete of the Month (February 2024)
-  \item Certificate of Achievement Mediterranean Games (May 2024)
-  \item 77th Balkan Athletics Championship participation (May 2024)
-\end{itemize}
+\noindent
+\textbf{Achievements \& Awards}\\
+\\
+\fcolorbox{awardsborder}{white}{\parbox{0.97\linewidth}{
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabularx}{\linewidth}{>{\bfseries}X l}
+      Award / Achievement & Date\\
+      \arrayrulecolor{awardsborder}\hline\arrayrulecolor{black}
+      ISF World School Championships Athletics, Croatia & May 2019 \\
+      U18 Athlete of the Year & 2020, 2021\\
+      Two Gold and One Silver Medalist, GSSE & 2022 \\
+      University of Malta GSSE Commemoration & --\\
+      Atlas Athlete of the Month & Jun 2023 \\
+      Atlas Athlete of the Month & Feb 2024\\
+      Certificate of Achievement, Mediterranean Games & May 2024\\
+      77th Balkan Athletics Championship participation & May 2024\\
+    \end{tabularx}
+}}
 
 \end{document}
