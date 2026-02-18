@@ -45,7 +45,8 @@ NATIONAL_RECORDS = {
 
 # Personal bests to use when scraping fails (actual times, not all NRs)
 FALLBACK_TIMES = {
-    "60m": "7.08s",
+    "60m": "6.04s",
+    "60m SH": "6.08s",
     "100m": "10.93s",
     "200m": "21.18s",  # This IS a NR
     "300m": "34.76s",
@@ -616,6 +617,9 @@ def main():
     
     # Merge the data (taking best times from both sources)
     merged_pbs = scraper.merge_times(opentrack_pbs, world_athletics_pbs)
+    
+    # Always consider known valid baseline PBs (keeps fastest of scraped vs baseline)
+    merged_pbs = scraper.merge_times(merged_pbs, FALLBACK_TIMES)
     
     if not merged_pbs:
         print("\nWARNING: No personal bests could be scraped from either source.")
