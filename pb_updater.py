@@ -16,6 +16,7 @@ import json
 import random
 import re
 import os
+from urllib.parse import urlencode
 from datetime import datetime
 from typing import Dict, Tuple, Optional
 from bs4 import BeautifulSoup
@@ -67,6 +68,7 @@ class AthleteicsDataScraper:
         self.session = requests.Session()
         self._world_athletics_records = {}  # Store NR info from World Athletics
         self._athletics_malta_records = {}  # Store official records by event
+        self._athletics_malta_positions = {}  # Store athlete all-time position by event
         # Multiple user agents to avoid detection
         self.user_agents = [
             'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -553,6 +555,90 @@ class AthleteicsDataScraper:
                     records[event_key] = normalized_time
 
         return records
+
+    def scrape_athletics_malta_positions(self, events: Dict[str, str], athlete_name: str = "Graham Pellegrini") -> Dict[str, int]:
+        """
+        Fetch athlete all-time positions from Athletics Malta filtered rankings.
+
+        Args:
+            events: Event keys currently in merged PBs
+            athlete_name: Athlete full name to match in table rows
+
+        Returns:
+            Dict of event_key -> rank (e.g., {"100m": 2})
+        """
+        print("Scraping Athletics Malta positions...")
+        positions: Dict[str, int] = {}
+
+        for event_key in sorted(events.keys()):
+            base_event = event_key.split()[0]
+            if not re.match(r'^\d+m$', base_event):
+                continue
+
+            game_type = "Indoor" if (" SH" in event_key or " IN" in event_key) else "Outdoor"
+            params = {
+                "sf_data": "results",
+                "_sfm_gender": "Men",
+                "_sfm_age_group": "Senior",
+                "_sfm_game_type": game_type,
+                "_sfm_event_type": base_event,
+            }
+            query_url = f"{ATHLETICS_MALTA_RECORDS_URL}?{urlencode(params)}"
+
+            html = None
+            try:
+                response = requests.get(
+                    query_url,
+                    timeout=20,
+                    headers={
+                        'User-Agent': 'Mozilla/5.0',
+                        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                        'Accept-Language': 'en-US,en;q=0.9',
+                        'Referer': 'https://athleticsmalta.com/records/',
+                    },
+                )
+                if response.status_code == 200 and response.text:
+                    html = response.text
+            except requests.RequestException:
+                pass
+
+            if not html:
+                continue
+
+            try:
+                soup = BeautifulSoup(html, 'html.parser')
+                rows = soup.find_all('tr')
+                found_rank = None
+                for row in rows:
+                    cells = row.find_all('td')
+                    if len(cells) < 9:
+                        continue
+
+                    rank_text = cells[0].get_text(strip=True)
+                    athlete_text = cells[2].get_text(strip=True)
+                    event_text = cells[3].get_text(strip=True)
+
+                    if athlete_name.lower() not in athlete_text.lower():
+                        continue
+
+                    if event_text.strip().lower() != base_event.lower():
+                        continue
+
+                    if rank_text.isdigit():
+                        found_rank = int(rank_text)
+                        break
+
+                if found_rank is not None:
+                    positions[event_key] = found_rank
+            except Exception:
+                continue
+
+            # Gentle pacing to avoid triggering anti-bot/rate-limit rules
+            time.sleep(0.4)
+
+        self._athletics_malta_positions = positions
+        print(f"  Found {len(positions)} event positions for {athlete_name}")
+        return positions
     
     def _parse_world_athletics_event(self, discipline: str) -> Optional[str]:
         """
@@ -684,6 +770,13 @@ def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None, scra
     """
     if world_athletics_records is None:
         world_athletics_records = {}
+
+    def ordinal(rank: int) -> str:
+        if 10 <= rank % 100 <= 20:
+            suffix = "th"
+        else:
+            suffix = {1: "st", 2: "nd", 3: "rd"}.get(rank % 10, "th")
+        return f"{rank}{suffix}"
     
     lines = []
     lines.append("### 🏃 Automatic Personal Best Tracker\n")
@@ -701,7 +794,11 @@ def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None, scra
             time_val = pbs[event]
             # Check both confirmed records and World Athletics records
             is_nr = scraper.is_national_record(event, time_val) or (event in world_athletics_records)
-            status = "🔴 NR" if is_nr else "-"
+            if is_nr:
+                status = "🔴 NR"
+            else:
+                rank = getattr(scraper, '_athletics_malta_positions', {}).get(event)
+                status = f"{ordinal(rank)} All-Time" if rank else "-"
             lines.append(f"| {event} | {time_val} | {status} |")
             displayed_events.add(event)
         
@@ -711,7 +808,11 @@ def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None, scra
                 time_val = pbs[event_key]
                 # Check both confirmed records and World Athletics records
                 is_nr = scraper.is_national_record(event_key, time_val) or (event_key in world_athletics_records)
-                status = "🔴 NR" if is_nr else "-"
+                if is_nr:
+                    status = "🔴 NR"
+                else:
+                    rank = getattr(scraper, '_athletics_malta_positions', {}).get(event_key)
+                    status = f"{ordinal(rank)} All-Time" if rank else "-"
                 lines.append(f"| {event_key} | {time_val} | {status} |")
                 displayed_events.add(event_key)
     
@@ -720,7 +821,11 @@ def build_widget(pbs: Dict[str, str], world_athletics_records: Dict = None, scra
         if event_key not in displayed_events:
             time_val = pbs[event_key]
             is_nr = scraper.is_national_record(event_key, time_val) or (event_key in world_athletics_records)
-            status = "🔴 NR" if is_nr else "-"
+            if is_nr:
+                status = "🔴 NR"
+            else:
+                rank = getattr(scraper, '_athletics_malta_positions', {}).get(event_key)
+                status = f"{ordinal(rank)} All-Time" if rank else "-"
             lines.append(f"| {event_key} | {time_val} | {status} |")
             displayed_events.add(event_key)
     
@@ -786,6 +891,9 @@ def main():
     
     # Always consider known valid baseline PBs (keeps fastest of scraped vs baseline)
     merged_pbs = scraper.merge_times(merged_pbs, FALLBACK_TIMES)
+
+    # Fetch all-time positions from Athletics Malta for current event set
+    scraper.scrape_athletics_malta_positions(merged_pbs)
     
     if not merged_pbs:
         print("\nWARNING: No personal bests could be scraped from either source.")
