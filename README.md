@@ -71,7 +71,7 @@ Minimalist set of core technologies I have worked with:
 | 400m | 46.83s | - |
 | 400m SH | 47.55s | 🔴 NR |
 
-> _Last updated: 18 February 2026_
+> _Last updated: 01 March 2026_
 
 > _Sourced from [OpenTrack](https://malta.opentrack.run/), [World Athletics](https://worldathletics.org/) & [Athletics Malta Records](https://athleticsmalta.com/records/)_
 <!-- END_PB -->
