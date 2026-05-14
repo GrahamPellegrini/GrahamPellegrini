@@ -22,7 +22,7 @@ I'm a **critical thinker** who prioritises **logic** and **understanding** of th
 
 <div align="left">
 
-[![University Email](https://img.shields.io/badge/Email-graham.pellegrini.22@um.edu.mt-blue?style=for-the-badge&logo=gmail&logoColor=white)](mailto:graham.pellegrini.22@um.edu.mt)
+[![University Email](https://img.shields.io/badge/Email-graham.pellegrini.@um.edu.mt-blue?style=for-the-badge&logo=gmail&logoColor=white)](mailto:graham.pellegrini.@um.edu.mt)
 
 [![Personal Email](https://img.shields.io/badge/Email-grahammalta@gmail.com-red?style=for-the-badge&logo=gmail&logoColor=white)](mailto:grahammalta@gmail.com)
 
